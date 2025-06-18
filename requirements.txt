@@ -1,0 +1,8 @@
+# CPU Scheduling Simulator Dependencies
+# This file lists all the Python packages required to run the CPU scheduling simulator
+
+# For creating formatted tables in the output
+tabulate>=0.8.9
+
+# Note: This project uses only standard Python libraries except for tabulate
+# To install dependencies, run: pip install -r requirements.txt 
