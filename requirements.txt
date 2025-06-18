@@ -3,6 +3,7 @@
 
 # For creating formatted tables in the output
 tabulate>=0.8.9
+matplotlib>=3.0.0
 
-# Note: This project uses only standard Python libraries except for tabulate
+# Note: This project uses only standard Python libraries except for tabulate and matplotlib
 # To install dependencies, run: pip install -r requirements.txt 
