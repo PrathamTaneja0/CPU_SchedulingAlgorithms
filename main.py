@@ -4,6 +4,7 @@ from SJF import SJF
 from Priority import Priority
 from RR import RoundRobin
 import csv
+import matplotlib.pyplot as plt
 
 # Helper to load processes from CSV
 def load_processes_from_csv(filename):
@@ -65,15 +66,19 @@ def main():
     if choice == 1:
         fcfs = FCFS()
         fcfs.processData(processes)
+        plt.show()
     elif choice == 2:
         sjf = SJF()
         sjf.processData(processes)
+        plt.show()
     elif choice == 3:
         priority = Priority()
         priority.processData(processes)
+        plt.show()
     elif choice == 4:
         rr = RoundRobin()
         rr.processData(processes)
+        plt.show()
 
 if __name__ == "__main__":
     main()

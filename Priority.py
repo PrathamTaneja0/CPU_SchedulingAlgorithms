@@ -5,14 +5,41 @@
 
 from tabulate import tabulate
 import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
 
 class Priority:
-   
+    """
+    Priority CPU Scheduling Algorithm Implementation
+    
+    Priority scheduling is a preemptive scheduling algorithm where processes are
+    executed based on their priority level. Higher priority processes are executed first.
+    
+    Process data structure: [PID, Arrival, Burst, Priority]
+    
+    Advantages:
+    - Allows for priority-based execution
+    - Good for real-time systems
+    - Can handle different process importance levels
+    
+    Disadvantages:
+    - Can cause starvation for low-priority processes
+    - Priority inversion problem
+    - Requires priority assignment mechanism
+    """
 
     def processData(self, process_data):
         """
-        Collect process information from user input
+        Process the scheduling data for Priority algorithm
+        
+        Args:
+            process_data (list): List of processes with [PID, Arrival, Burst, Priority] format
         """
+        # Prepare data structure: [PID, Arrival, Remaining_Burst, Priority, Completed, Original_Burst]
+        for i in range(len(process_data)):
+            if len(process_data[i]) == 4:
+                # Add Completed=0 and Original_Burst
+                process_data[i].extend([0, process_data[i][2]])
+        
         start_time = []
         exit_time = []
         s_time = 0
@@ -45,10 +72,11 @@ class Priority:
                     if process_data[k][0] == ready_queue[0][0]:
                         break
                 process_data[k][2] = process_data[k][2] - 1
+                # Always append a Gantt segment for each time unit
+                gantt.append((process_data[k][0], s_time - 1, s_time))
                 if process_data[k][2] == 0:
                     process_data[k][4] = 1
                     process_data[k].append(e_time)
-                    gantt.append((process_data[k][0], e_time - process_data[k][5], e_time))
             if len(ready_queue) == 0:
                 normal_queue.sort(key=lambda x: x[1])
                 if s_time < normal_queue[0][1]:
@@ -62,10 +90,11 @@ class Priority:
                     if process_data[k][0] == normal_queue[0][0]:
                         break
                 process_data[k][2] = process_data[k][2] - 1
+                # Always append a Gantt segment for each time unit
+                gantt.append((process_data[k][0], s_time - 1, s_time))
                 if process_data[k][2] == 0:
                     process_data[k][4] = 1
                     process_data[k].append(e_time)
-                    gantt.append((process_data[k][0], e_time - process_data[k][5], e_time))
         t_time = Priority.calculateTurnaroundTime(self, process_data)
         w_time = Priority.calculateWaitingTime(self, process_data)
         Priority.printData(self, process_data, t_time, w_time, sequence_of_process)
@@ -120,10 +149,15 @@ class Priority:
 
     def plot_gantt(self, gantt):
         fig, ax = plt.subplots()
-        for i, (pid, start, end) in enumerate(gantt):
-            ax.barh(0, end-start, left=start, height=0.3, align='center', label=f'P{pid}' if i==0 else "")
+        colors = list(mcolors.TABLEAU_COLORS.values())
+        unique_pids = []
+        for pid, _, _ in gantt:
+            if pid not in unique_pids:
+                unique_pids.append(pid)
+        pid_to_color = {pid: colors[i % len(colors)] for i, pid in enumerate(unique_pids)}
+        for (pid, start, end) in gantt:
+            ax.barh(0, end-start, left=start, height=0.3, align='center', color=pid_to_color[pid])
             ax.text((start+end)/2, 0, f'P{pid}', va='center', ha='center', color='white', fontsize=10)
         ax.set_yticks([])
         ax.set_xlabel('Time')
         ax.set_title('Priority Scheduling Gantt Chart')
-        plt.show()

@@ -28,11 +28,17 @@ class SJF:
 
     def processData(self, process_data):
         """
-        Collect process information from user input
+        Process the scheduling data for SJF algorithm
         
         Args:
-            process_data (list): List of processes with [PID, Arrival, Remaining_Burst, Completed, Original_Burst]
+            process_data (list): List of processes with [PID, Arrival, Burst] format
         """
+        # Prepare data structure: [PID, Arrival, Remaining_Burst, Completed, Original_Burst]
+        for i in range(len(process_data)):
+            if len(process_data[i]) == 3:
+                # Add Completed=0 and Original_Burst
+                process_data[i].extend([0, process_data[i][2]])
+        
         start_time = []
         exit_time = []
         s_time = 0
@@ -163,4 +169,3 @@ class SJF:
         ax.set_yticks([])
         ax.set_xlabel('Time')
         ax.set_title('SJF Gantt Chart')
-        plt.show()

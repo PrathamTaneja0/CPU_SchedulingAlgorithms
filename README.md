@@ -4,10 +4,9 @@ A Python project implementing and visualizing four classic CPU scheduling algori
 
 ## Features
 - **Algorithms:** FCFS, SJF (preemptive), Priority (preemptive), Round Robin
-- **Input:** Manual entry or CSV file (`processes.csv`)
+- **Input:** Manual entry or CSV file (`processes.csv` or `test.csv`)
 - **Output:** Tabulated results and Gantt chart visualization (using matplotlib)
-- **Well-documented code**
-- **Extensible and educational**
+- **Automated and interactive testing**
 
 ## Requirements
 - Python 3.6+
@@ -27,7 +26,9 @@ CA_Progress/
 ├── Priority.py     # Priority Scheduling logic
 ├── RR.py           # Round Robin logic (uses collections.deque)
 ├── main.py         # Main entry point, handles input and runs algorithms
-├── processes.csv   # Example input file (CSV format)
+├── processes.csv   # Example input file for interactive/manual runs
+├── test.csv        # Sample input file for automated tests
+├── test.py         # Automated test runner for all algorithms
 ├── requirements.txt
 └── README.md
 ```
@@ -44,6 +45,14 @@ CA_Progress/
 4. **View results:**
    - Tabulated process metrics (Completion, Turnaround, Waiting Time)
    - Gantt chart visualization (matplotlib window)
+
+### Automated Testing
+1. **Run all algorithms on a sample dataset:**
+   ```bash
+   python test.py
+   ```
+   - This will load processes from `test.csv` and run FCFS, SJF, Priority, and RR in sequence.
+   - Each algorithm's results and Gantt chart will be shown interactively.
 
 ## Example `processes.csv`
 ```
@@ -79,21 +88,15 @@ PID,Arrival,Burst,Priority
 - Prompts for time quantum
 - Outputs table and Gantt chart
 
+### test.py
+- Loads process data from `test.csv`
+- Runs all four algorithms in sequence
+- Shows results and Gantt charts interactively
+
 ## Libraries Used
 - **tabulate:** For clean table output
 - **matplotlib:** For Gantt chart visualization
 - **csv:** For reading CSV input
 - **collections.deque:** For efficient queue in Round Robin
 
-## Extending/Modifying
-- Add more columns to `processes.csv` as needed
-- Add new scheduling algorithms as separate modules
-- Adjust Gantt chart code for more advanced visualization
 
-## Educational Notes
-- Each algorithm is implemented in a modular, readable way
-- Gantt charts help visualize scheduling behavior
-- Code is commented and structured for learning and extension
-
-## License
-Open source, for educational use. 

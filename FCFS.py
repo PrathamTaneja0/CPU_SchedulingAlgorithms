@@ -2,11 +2,27 @@ from tabulate import tabulate
 import matplotlib.pyplot as plt
 
 class FCFS:
-   
+    """
+    First-Come, First-Served (FCFS) CPU Scheduling Algorithm Implementation
+    
+    FCFS is a non-preemptive scheduling algorithm where processes are executed
+    in the order they arrive. The process that arrives first gets the CPU first.
+    
+    Process data structure: [PID, Arrival, Burst]
+    
+    Advantages:
+    - Simple to implement and understand
+    - No starvation
+    
+    Disadvantages:
+    - Poor performance for short processes behind long ones
+    - High average waiting time
+    - Not optimal for minimizing waiting time
+    """
     
     def processData(self, process_data):
-        # Sort by arrival time, then burst time
-        process_data.sort(key=lambda x: (x[1], x[2]))
+        # Sort by arrival time only (FCFS principle)
+        process_data.sort(key=lambda x: x[1])
         s_time = 0
         gantt = []
         for idx, proc in enumerate(process_data):
@@ -25,7 +41,7 @@ class FCFS:
     def calculateTurnaroundTime(self, process_data):
         total_tat = 0
         for proc in process_data:
-            tat = proc[3] - proc[1]
+            tat = proc[3] - proc[1] # Completion time - Arrival time
             proc.append(tat)
             total_tat += tat
         return total_tat / len(process_data)
@@ -33,7 +49,7 @@ class FCFS:
     def calculateWaitingTime(self, process_data):
         total_wt = 0
         for proc in process_data:
-            wt = proc[4] - proc[2]
+            wt = proc[4] - proc[2] # turnaround time - burst time
             proc.append(wt)
             total_wt += wt
         return total_wt / len(process_data)
@@ -56,4 +72,3 @@ class FCFS:
         ax.set_yticks([])
         ax.set_xlabel('Time')
         ax.set_title('FCFS Gantt Chart')
-        plt.show()

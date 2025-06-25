@@ -6,6 +6,7 @@
 from tabulate import tabulate
 import matplotlib.pyplot as plt
 from collections import deque
+import matplotlib.colors as mcolors
 
 class RoundRobin:
     """
@@ -32,18 +33,18 @@ class RoundRobin:
 
     def processData(self, process_data):
         """
-        Accepts a list of process data: [PID, Arrival, Burst] or [PID, Arrival, Burst, ...]
+        Accepts a list of process data: [PID, Arrival, Burst] or [PID, Arrival, Burst, Priority]
         Prompts for time quantum, then runs the scheduling algorithm.
         """
         # Ensure process_data has [PID, Arrival, Remaining_Burst, Completed, Original_Burst]
+        # For Round Robin, we only need PID, Arrival, Burst (ignore Priority if present)
         for i in range(len(process_data)):
-            if len(process_data[i]) == 3:
-                # Add Completed=0 and Original_Burst
-                process_data[i].extend([0, process_data[i][2]])
-            elif len(process_data[i]) == 4:
-                # Add Completed=0 and Original_Burst if not present
-                if len(process_data[i]) == 4:
-                    process_data[i].extend([0, process_data[i][2]])
+            if len(process_data[i]) >= 3:
+                # Extract only PID, Arrival, Burst (first 3 elements)
+                pid, arrival, burst = process_data[i][:3]
+                # Replace with clean data structure
+                process_data[i] = [pid, arrival, burst, 0, burst]  # [PID, Arrival, Remaining_Burst, Completed, Original_Burst]
+        
         time_slice = int(input("Enter Time Quantum (Time Slice): "))
         print(f"Time Quantum: {time_slice} time units")
         self.schedulingProcess(process_data, time_slice)
@@ -150,10 +151,16 @@ class RoundRobin:
 
     def plot_gantt(self, gantt):
         fig, ax = plt.subplots()
-        for i, (pid, start, end) in enumerate(gantt):
-            ax.barh(0, end-start, left=start, height=0.3, align='center', label=f'P{pid}' if i==0 else "")
+        colors = list(mcolors.TABLEAU_COLORS.values())
+        # Get all unique process IDs in the order they first appear
+        unique_pids = []
+        for pid, _, _ in gantt:
+            if pid not in unique_pids:
+                unique_pids.append(pid)
+        pid_to_color = {pid: colors[i % len(colors)] for i, pid in enumerate(unique_pids)}
+        for (pid, start, end) in gantt:
+            ax.barh(0, end-start, left=start, height=0.3, align='center', color=pid_to_color[pid])
             ax.text((start+end)/2, 0, f'P{pid}', va='center', ha='center', color='white', fontsize=10)
         ax.set_yticks([])
         ax.set_xlabel('Time')
         ax.set_title('Round Robin Gantt Chart')
-        plt.show()
