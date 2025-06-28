@@ -77,7 +77,7 @@ PID,Arrival,Burst,Priority
 3,5,12,9
 
 # Test Case 4: Priority Scheduling - Preemptive
-# This test case demonstrates priority-based execution
+# This test case demonstrates priority-based     execution
 # Higher priority numbers = higher priority (3>2>1)
 # Expected Execution: P3->P2->P1 (sorted by priority)
 # Expected Results:
