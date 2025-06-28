@@ -34,63 +34,19 @@ PID,Arrival,Burst,Priority
 # Priority
 # Test Case 3: Priority Scheduling with Different Arrival Times
 # This test case demonstrates how Priority handles processes with different arrival times
-# Process Data: P1(AT=0, BT=10, Priority=1), P2(AT=3, BT=11, Priority=7), P3(AT=5, BT=12, Priority=9)
 # Higher priority numbers = higher priority (9>7>1)
-
-# Step-by-Step Execution Analysis:
-# Time 0-3: P1 runs (only process available, priority=1)
-# Time 3: P2 arrives (priority=7 > P1's priority=1), P2 preempts P1
-# Time 3-5: P2 runs (highest priority)
-# Time 5: P3 arrives (priority=9 > P2's priority=7), P3 preempts P2  
-# Time 5-17: P3 runs to completion (highest priority)
-# Time 17-27: P2 continues (priority=7 > P1's priority=1)
-# Time 27-37: P1 continues (lowest priority, runs last)
-
 # Expected Execution: P1(0-3)->P2(3-5)->P3(5-17)->P2(17-28)->P1(28-38)
 # Expected Results:
-# - P1: CT=38, TAT=38, WT=28 (arrived at 0, completed at 38, waited 28)
-# - P2: CT=28, TAT=25, WT=14 (arrived at 3, completed at 28, waited 14)
-# - P3: CT=17, TAT=12, WT=0  (arrived at 5, completed at 17, waited 0)
+# - P1: CT=38, TAT=38, WT=28
+# - P2: CT=28, TAT=25, WT=14
+# - P3: CT=17, TAT=12, WT=0
 # - Avg TAT: 25.0, Avg WT: 14.0
-
-# Why this test case is excellent for Priority demonstration:
-# 1. Shows preemptive behavior when higher priority processes arrive
-# 2. Demonstrates priority-based execution regardless of arrival time
-# 3. Shows how low priority processes can be delayed significantly
-# 4. Illustrates the starvation problem (P1 waits 28 time units)
-# 5. Perfect for showing Priority vs FCFS difference
-
-# Performance Comparison with Other Algorithms on Same Data:
-# FCFS:     Avg TAT=25.0,  Avg WT=14.0 (same as Priority due to arrival order)
-# SJF:      Avg TAT=22.33, Avg WT=11.33 (better - prioritizes shorter jobs)
-# Priority: Avg TAT=25.0,  Avg WT=14.0 (same as FCFS - arrival order dominates)
-# RR(TQ=2): Avg TAT=~28.0, Avg WT=~17.0 (worse due to context switching)
-
-# Key Learning Points for Class:
-# 1. Priority scheduling can perform same as FCFS when arrival order aligns with priority
-# 2. Preemption occurs only when higher priority process arrives
-# 3. Low priority processes can experience significant delays
-# 4. Priority scheduling is not always optimal for minimizing waiting time
-# 5. The effectiveness depends heavily on priority assignment strategy
+# Why good for Priority: Shows preemptive behavior when higher priority processes arrive
 1,0,10,1
 2,3,11,7
 3,5,12,9
 
-# Test Case 4: Priority Scheduling - Preemptive
-# This test case demonstrates priority-based     execution
-# Higher priority numbers = higher priority (3>2>1)
-# Expected Execution: P3->P2->P1 (sorted by priority)
-# Expected Results:
-# - P1: CT=15, TAT=15, WT=7
-# - P2: CT=8, TAT=8, WT=5
-# - P3: CT=5, TAT=5, WT=0
-# - Avg TAT: 9.33, Avg WT: 4.0
-# Why good for Priority: Clear priority differences, shows priority-based execution
-8,0,8,1
-9,0,3,2
-10,0,5,3
-
-# Test Case 5: Round Robin - Preemptive with Time Quantum = 2
+# Test Case 4: Round Robin - Preemptive with Time Quantum = 2
 # This test case shows RR's fairness and time-sharing
 # Expected Execution: P1(2)->P2(2)->P3(2)->P1(2)->P2(1)->P3(2)->P1(2)->P3(1)
 # Expected Results (with TQ=2):
@@ -103,7 +59,7 @@ PID,Arrival,Burst,Priority
 12,0,5,1
 13,0,5,1
 
-# Test Case 6: FCFS Limitation - Convoy Effect
+# Test Case 5: FCFS Limitation - Convoy Effect
 # This test case shows FCFS's weakness with long processes
 # Short job arrives late, gets processed last (convoy effect)
 # Expected Execution: P1->P2->P3->P4 (arrival order)
@@ -119,7 +75,7 @@ PID,Arrival,Burst,Priority
 16,2,8,1
 17,3,1,1
 
-# Test Case 7: SJF Preemptive - Optimal Case
+# Test Case 6: SJF Preemptive - Optimal Case
 # This test case shows SJF's optimal performance
 # Short jobs arrive during execution of long jobs
 # Expected Execution: P1(0-2)->P2(2-4)->P3(4-6)->P1(6-10)
@@ -133,7 +89,7 @@ PID,Arrival,Burst,Priority
 19,2,2,1
 20,4,2,1
 
-# Test Case 8: Priority Starvation Example
+# Test Case 7: Priority Starvation Example
 # This test case demonstrates priority scheduling's starvation problem
 # Low priority process may never get CPU if high priority processes keep arriving
 # Expected Execution: P2->P3->P2->P3->P2->P3 (repeating high priority)
@@ -147,7 +103,7 @@ PID,Arrival,Burst,Priority
 22,0,3,3
 23,0,3,2
 
-# Test Case 9: Round Robin - Time Quantum Impact
+# Test Case 8: Round Robin - Time Quantum Impact
 # This test case shows how time quantum size affects performance
 # Smaller quantum = more context switching, larger quantum = less fair
 # Expected Results with TQ=1: More frequent switching
