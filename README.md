@@ -42,7 +42,10 @@ CA_Progress/
 3. **Choose input mode:**
    - Manual entry (enter process details one by one)
    - CSV file (`processes.csv`)
-4. **View results:**
+4. **Input Requirements:**
+   - All input values (Process ID, Arrival Time, Burst Time, Priority) must be **integers**
+   - Decimal values are not supported and will cause errors
+5. **View results:**
    - Tabulated process metrics (Completion, Turnaround, Waiting Time)
    - Gantt chart visualization (matplotlib window)
 

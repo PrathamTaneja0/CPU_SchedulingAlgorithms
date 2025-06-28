@@ -7,7 +7,7 @@ import csv
 import matplotlib.pyplot as plt
 
 # Helper to load processes from CSV
-def load_processes_from_csv(filename):
+def load_processes_from_csv(filename, need_priority=False):
     processes = []
     with open(filename, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
@@ -16,8 +16,8 @@ def load_processes_from_csv(filename):
             pid = int(row['PID'])
             arrival = int(row['Arrival'])
             burst = int(row['Burst'])
-            priority = int(row['Priority']) if 'Priority' in row and row['Priority'] != '' else None
-            if priority is not None:
+            if need_priority:
+                priority = int(row['Priority']) if 'Priority' in row and row['Priority'] != '' else 0
                 processes.append([pid, arrival, burst, priority])
             else:
                 processes.append([pid, arrival, burst])
@@ -59,7 +59,8 @@ def main():
     mode = int(input("Enter 1 or 2: "))
     if mode == 2:
         filename = "processes.csv"
-        processes = load_processes_from_csv(filename)
+        need_priority = (choice == 3)  # Only Priority algorithm needs priority
+        processes = load_processes_from_csv(filename, need_priority=need_priority)
     else:
         need_priority = (choice == 3)
         processes = get_manual_input(need_priority=need_priority)
